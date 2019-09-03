@@ -4,3 +4,5 @@ module.exports={
     port:12567,
 
 }
+
+///usr/local/etc/nginx/nginx.conf
