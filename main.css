@@ -1,0 +1,97 @@
+#fullbody{
+    display: inline-flex;
+    flex-direction: row;
+    width: 1440px;
+    height:auto!important;
+    height:588px;
+    min-height:588px;
+    left:12.5%;
+    right:12.5%;
+    margin:0;
+    position: absolute;
+}
+#logindiv{
+    background-color: #222;
+    width: 240px;
+    height: 112px;
+}
+#loginspan{
+    width:240px;
+    text-align: center;
+    padding: 40px 0 40px 0;
+    color:white;
+    font-size: 24px
+
+}
+.frame{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
+    border-radius: initial;
+    background-color: white;
+    
+}
+#floattitle{
+    height: 259px;
+    width: 240px;
+}
+#indexdiv{
+    font-size :18px;
+}
+#floatbottom{
+    margin: 2px 0 2px 0;
+    text-align: center;
+    height: 325px;
+    display: flex;
+    flex-direction: column;
+}
+li{
+    padding:7px;
+    
+}
+table{
+    display: block;
+    padding:60px 60px 60px 60px
+}
+aside{
+
+
+    position:fixed;
+    left:12.5%;
+    top:0;
+
+}
+body{
+    margin:0
+}
+.postblock{
+    height:300px;
+    display: block;
+    background-color: white;
+    right:0%;
+    margin:2px 0 0 0;
+}
+#postarea{
+    margin:0 0 0 244px;
+    display: inline-flex;
+    flex-direction: column;
+    height:auto!important;
+    height:588px;
+    min-height:588px;
+    width:auto!important;
+    width:1196px;
+    min-width:1196px;
+    right:0%;
+    position: absolute;
+}
+#indextable{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    padding: 0 60px;
+}
+#indexspe{
+    border-left:1px solid #000;
+    border-right:1px solid #000;
+}
+.table2{
+    padding:3px;
+}
