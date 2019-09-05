@@ -50,9 +50,11 @@ var countarticle = function(handleError){
 }
 
 
-var sortarticle = function(){
+var sortarticle = function(func){
     
-    Article.find({}).sort('-createdtime').exec(function(err, docs) {console.log(docs)});
+    Article.find({}).sort('-createdtime').exec(function(err, docs) {
+        func(err,docs)
+    });
 }
 
 

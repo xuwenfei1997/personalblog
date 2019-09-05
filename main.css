@@ -9,6 +9,7 @@
     right:12.5%;
     margin:0;
     position: absolute;
+    font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 #logindiv{
     background-color: #222;
@@ -35,6 +36,7 @@
 }
 #indexdiv{
     font-size :18px;
+    color:grey
 }
 #floatbottom{
     margin: 2px 0 2px 0;
@@ -42,6 +44,7 @@
     height: 325px;
     display: flex;
     flex-direction: column;
+    color:rgb(73, 73, 73)
 }
 li{
     padding:7px;
@@ -68,6 +71,7 @@ body{
     background-color: white;
     right:0%;
     margin:2px 0 0 0;
+    padding: 40px;
 }
 #postarea{
     margin:0 0 0 244px;
@@ -86,12 +90,102 @@ body{
     display: flex;
     flex-direction: row;
     text-align: center;
-    padding: 0 60px;
+    padding: 0 80px;
 }
 #indexspe{
-    border-left:1px solid #000;
-    border-right:1px solid #000;
+    border-left:1px solid rgb(102, 102, 102);
+    
 }
 .table2{
     padding:3px;
 }
+.title{
+    font-size: 1.7em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    text-align: center;
+    font-weight: 400;
+    color: #555;
+    margin: initial;
+    padding: 0;
+    line-height: 1.5;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    position: relative;
+    cursor: pointer;
+}
+.time{
+    border-bottom: 1px dashed #999;
+    cursor: help;
+    font-size: 12px;
+    text-align: center;
+    line-height: 2;
+}
+.infodiv{
+    font-size: 12px;
+    text-align: center;
+    color: #999;
+}
+.division{
+    font-size: 12px;
+    text-align: center;
+    color: #999;
+    margin: 0 0.5em;
+}
+.postarticle{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin: 0 0 20px 0;
+    text-align: justify;
+    overflow-wrap: break-word;
+}
+.info{
+    margin:0 0 20px 0;
+}
+.btn-show-article{
+    display: inline-block;
+    padding: 0 10px 0 20px;
+    font-size: 14px;
+    color: #555;
+    background: #fff;
+    border: 2px solid #555;
+    text-decoration: none;
+    border-radius: 2px;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+    line-height: 2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    cursor: pointer;
+    text-align: center;
+    margin-left:45%
+}
+.btn-show-article:hover {
+    border-color: #222;
+    color: #fff;
+    background: #222;
+}
+
+.title::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+}
+.title:hover::before {
+    visibility: visible;
+    transform: scaleX(1);
+  }

@@ -25,7 +25,7 @@ var countarticle = function(req,res,next){
 }
 
 var counttags = function(req,res,next){
-    console.log(database.setA)
+    
     res.send(200,database.setA.size);
     res.end();
 
@@ -40,10 +40,13 @@ var tagsinit = function(req,res,next){
 var sortarticle = function(req,res,next){
 
 
-    //TODO：等网页写好了交给网页处理
-    database.sortarticle();
-    res.send(200)
-    res.end()
+ 
+    database.sortarticle((err,articles)=>{
+        if (err){res.send(406,err);return res.end();}
+        else {res.send(200,articles);res.end();}
+    });
+    
+
 }
 
 module.exports={
