@@ -2,7 +2,27 @@
 <head>
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+
+    $.ajax({
+        type: "GET",
+        url: "http://127.0.0.1:8080/api/countarticle",
+        dataType: "text",
+        success: function(data){
+            $("#numberofarticles").text(data);
+                 }
+    });
+
+
+    </script>
+
+
+
+
+
+
+
+
 </head>
 <body style="background-color:#555;">
     <div id='fullbody'>
@@ -32,7 +52,7 @@
                     <p>用实力让情怀落地</p>
                 </div>
                 <div id='indextable'>
-                    <div class='table2'>40<br />日志</div>
+                    <div class='table2' id='numberofarticles'>40<br />日志</div>
                     <div class='table2' id='indexspe'>40<br />日志</div>
                     <div class='table2'>40<br />日志</div>
                 </div>

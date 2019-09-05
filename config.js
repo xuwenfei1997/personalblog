@@ -6,3 +6,4 @@ module.exports={
 }
 
 ///usr/local/etc/nginx/nginx.conf
+// /usr/local/mongodb
