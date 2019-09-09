@@ -31,10 +31,9 @@ var counttags = function(req,res,next){
 
 }
 var tagsinit = function(req,res,next){
-    database.tagsinit();
-    
-    res.send(200);
-    res.end();
+    database.tagsinit((err,tags)=>{
+        if (err){res.send(406,err);return res.end();}
+        else {res.send(200,tags);res.end();}})
 }
 
 var sortarticle = function(req,res,next){

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8080/api/tagsinit",
+            success: function (data) {
+            $("#postarea").append(
+                `<div class='frame postblock'>    
+                <a href='www.baidu.com'>${data.join("、")}</a>
+                </div>`
+            )}});
+    </script>
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8080/api/countarticle",
+            dataType: "text",
+            success: function (data) {
+                $("#numberofarticles").html(data + '<br />日志');
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8080/api/counttags",
+            dataType: "text",
+            success: function (data) {
+                $("#indexspe").html(data + '<br />分类');
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body style="background-color:rgb(175, 170, 170);">
+    <div id='fullbody'>
+        <aside>
+            <div id="floattitle" class='frame'>
+                <div id="logindiv">
+                    <div id='loginspan'><span>注册/登录</span></div>
+
+                </div>
+                <div id="indexdiv">
+                    <ul style="list-style:none">
+                        <li>
+                            首页
+                        </li>
+                        <li>
+                            标签
+                        </li>
+                        <li>
+                            归档
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="floatbottom" class='frame'>
+                <div id='userprofile'>
+                    <span>guitu</span>
+                    <p>用实力让情怀落地</p>
+                </div>
+                <div id='indextable'>
+                    <div class='table2' id='numberofarticles'>40<br />日志</div>
+                    <div class='table2' id='indexspe'>40<br />日志</div>
+
+                </div>
+                <p>LINK</p>
+                <a href="www.baidu.com">
+                    百度
+                </a>
+
+            </div>
+        </aside>
+
+        <div id='postarea'>
+
+
+
+        </div>
+    </div>
+</body>

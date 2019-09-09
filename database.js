@@ -9,7 +9,7 @@ var schema = new mongoose.Schema({
     content: 'string' ,
     hashtags:Array,
 
-    },{timestamps: {createdAt: 'createdtime', updatedAt: 'updatedtime'}}, {versionKey: false});
+    },{timestamps: {createdAt: 'createdtime', updatedAt: 'updatedtime'}}, {versionKey: false,useNewUrlParser: true });
 
 
 var Article = mongoose.model('Article', schema);
@@ -19,7 +19,7 @@ var setA = new Set();
 
 
 
-var tagsinit = function(){
+var tagsinit = function(func){
     var query=Article.find({})
     query.select('hashtags')
          .exec(function(err,tags){
@@ -32,7 +32,8 @@ var tagsinit = function(){
                 }
                 
             }
-
+            func(err,Array.from(setA))
+            
 })}
 
 
