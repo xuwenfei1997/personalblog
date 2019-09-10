@@ -189,3 +189,19 @@ body{
     visibility: visible;
     transform: scaleX(1);
   }
+  #writearea{
+      background-color: white;
+  }
+  #title-input{
+      width:99.5%
+  }
+  #addtagbtn{
+      width:22px;
+      border: black;
+      border-width: 1px;
+      margin:0;
+  }
+  #addtags{
+    display: flex;
+    flex-direction: row;
+  }

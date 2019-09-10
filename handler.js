@@ -48,11 +48,22 @@ var sortarticle = function(req,res,next){
 
 }
 
+var testhandler=function(req,res,next){
+    console.log(req)
+    res.send(200)
+    res.end()
+}
+
+
+
+
+
 module.exports={
     indexhandler:indexhandler,
     uploader:uploader,
     countarticle:countarticle,
     counttags:counttags,
     tagsinit:tagsinit,
-    sortarticle:sortarticle
+    sortarticle:sortarticle,
+    testhandler:testhandler
 }

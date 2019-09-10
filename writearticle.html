@@ -27,7 +27,13 @@
             }
         });
     </script>
+    <script type="text/javascript">
+    function addtag(){
+        $('#addtag').append
+    }
 
+
+    </script>
 
 
 
@@ -78,8 +84,13 @@
         </aside>
 
         <div id='postarea'>
-            <div>
-            <div><input></div>
+            <div id='writearea'>
+            <div><input id='title-input' placeholder="标题"></div>
+            <div id='addtags'>
+                <input id='tags-input'>
+                <div id='addtagbtn' onclick="addtag()">+</div>
+
+            </div>
             <div id="editor">
                 <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
             </div>

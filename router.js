@@ -9,7 +9,7 @@ var router = function(server){
     server.get('/api/counttags',handler.counttags)
     server.get('/api/tagsinit',handler.tagsinit)
     server.get('/api/sortarticle',handler.sortarticle)
-
+    server.get('/api/test',handler.testhandler)
 }
 
 module.exports={
