@@ -2,7 +2,7 @@ var restify = require('restify');
 var config  = require('./config')
 var router  = require('./router')
 var os      = require('os')
-
+var handler = require('./handler')
 
 var server = restify.createServer(
     {name:config.name,
@@ -17,21 +17,21 @@ server.listen(config.port,function(){
 server.use(restify.plugins.bodyParser({
     maxBodySize: 0,
     mapParams: true,
-    mapFiles: false,
+    mapFiles: true,
     overrideParams: false,
-    multipartHandler: function(part) {
-        part.on('data', function(data) {
-          // do something with the multipart data
-        });
-    },
-   multipartFileHandler: function(part) {
-        part.on('data', function(data) {
-          // do something with the multipart file data
-        });
-    },
+  //   multipartHandler: function(part) {
+  //       part.on('data', function(data) {
+  //         // do something with the multipart data
+  //       });
+  //   },
+  //  multipartFileHandler: function(part) {
+  //       part.on('data', function(data) {
+         
+  //       });
+  //   },
     keepExtensions: false,
     uploadDir: os.tmpdir(),
-    multiples: true,
+    multiples: false,
     hash: 'sha1',
     rejectUnknown: true,
     requestBodyOnGet: false,

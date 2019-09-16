@@ -10,6 +10,8 @@ var router = function(server){
     server.get('/api/tagsinit',handler.tagsinit)
     server.get('/api/sortarticle',handler.sortarticle)
     server.get('/api/test',handler.testhandler)
+    server.post('/api/uploadimg',handler.uploadimg)
+
 }
 
 module.exports={

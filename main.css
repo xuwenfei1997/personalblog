@@ -200,8 +200,33 @@ body{
       border: black;
       border-width: 1px;
       margin:0;
+      border-style: solid;
+      text-align: center;
+      cursor: pointer;
+      color: black;
   }
   #addtags{
     display: flex;
     flex-direction: row;
+    background-color: rgb(175, 170, 170);
+    width:1196px;
+  }
+  .plustag{
+    display: flex;
+    flex-direction: row;
+  }
+  #deletebtn{
+    width:22px;
+    border: black;
+    border-width: 1px;
+    border-left: 0;
+    margin:0;
+    border-style: solid;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+  }
+  #btn-save-article{
+      display:inline-block;
+      margin:0 300px 0 300px;
   }

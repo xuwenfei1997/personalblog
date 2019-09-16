@@ -28,9 +28,40 @@
         });
     </script>
     <script type="text/javascript">
+
+    var i=0;
+    var tagcache=new Array;
     function addtag(){
-        $('#addtag').append
+    i=i+1;
+    if (i<6){
+    
+    newtag[i]=`        
+    <div id='addtags${i}' class='plustag'>
+        <input id='tags-input${i}'  placeholder="标签">
+        <div id='addtagbtn' onclick="addtag()">+</div>
+        <div id='deletebtn' onclick="removetag(this.parentNode.id)">-</div>
+
+    </div>`
+
+    
+    
+        $('#addtags').append(newtag[i])
     }
+    else alert("标签数量过多");
+    }
+    var newtag=new Array;
+
+    function removetag(id){
+        
+        $('#'+id).remove();
+        i=i-1;
+    }
+    
+    function save(){
+        
+    }
+
+    
 
 
     </script>
@@ -87,22 +118,29 @@
             <div id='writearea'>
             <div><input id='title-input' placeholder="标题"></div>
             <div id='addtags'>
-                <input id='tags-input'>
+                <input id='tags-input'  placeholder="标签">
                 <div id='addtagbtn' onclick="addtag()">+</div>
-
+                
             </div>
             <div id="editor">
-                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                <p>在这里输入正文</p>
             </div>
+
     <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
     <script type="text/javascript" src="node_modules/wangeditor/release/wangEditor.min.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor
         var editor = new E('#editor')
-        // 或者 var editor = new E( document.getElementById('editor') )
+        // editor.txt.html('<p>在这里输入正文</p>')
+        editor.customConfig.showLinkImg = false
+        editor.customConfig.uploadImgServer = '/api/uploadimg'
         editor.create()
+
     </script>
 
+        </div>
+        <div class='btn-show-article' id='btn-save-article' onclick='save()'>
+            发送 》
         </div>
     </div>
 </body>

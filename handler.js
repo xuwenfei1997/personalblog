@@ -1,5 +1,8 @@
 var database = require('./database')
+var fs = require('fs')
+var moment = require('moment');
 
+moment.locale('zh-cn');
 
 var indexhandler = function(req,res,next){
     res.send(200,"helloworld");
@@ -54,6 +57,29 @@ var testhandler=function(req,res,next){
     res.end()
 }
 
+var uploadimg=function(req,res,next){
+
+    
+    var id = Object.keys(req.params);
+    var timer=moment().format();
+    var filename = timer+'.png';
+    var cache = req.params[id]
+    // console.log(cache)
+    // console.log(filename)
+    fs.writeFile(filename,cache,function (err) {
+        if (err)
+            console.log(err);
+     })
+    var response={
+        "errno": 0,
+        "data": [
+            "./"+filename
+        ]
+    }
+    res.send(200,response);
+    res.end();
+}
+
 
 
 
@@ -65,5 +91,6 @@ module.exports={
     counttags:counttags,
     tagsinit:tagsinit,
     sortarticle:sortarticle,
-    testhandler:testhandler
+    testhandler:testhandler,
+    uploadimg:uploadimg
 }
