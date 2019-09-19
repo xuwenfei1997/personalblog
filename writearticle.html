@@ -32,9 +32,9 @@
     var i=0;
     var tagcache=new Array;
     function addtag(){
-    i=i+1;
-    if (i<6){
     
+    if (i<6){
+        i=i+1;
     newtag[i]=`        
     <div id='addtags${i}' class='plustag'>
         <input id='tags-input${i}'  placeholder="标签">
@@ -45,7 +45,8 @@
 
     
     
-        $('#addtags').append(newtag[i])
+    $('#addtags').append(newtag[i])
+      
     }
     else alert("标签数量过多");
     }
@@ -56,8 +57,20 @@
         $('#'+id).remove();
         i=i-1;
     }
-    
+    var newArticle
     function save(){
+        var title= $("#title-input").val()
+        var content=editor.txt.html();
+        for(var p=0;p<=i;p++){
+        newtag[p]=$("#tags-input"+p).val()
+
+        }
+        newArticle={
+            title:title,
+            content:content,
+            hashtags:newtag
+        }
+        console.log(newArticle)
         
     }
 
@@ -118,7 +131,7 @@
             <div id='writearea'>
             <div><input id='title-input' placeholder="标题"></div>
             <div id='addtags'>
-                <input id='tags-input'  placeholder="标签">
+                <input id='tags-input0'  placeholder="标签">
                 <div id='addtagbtn' onclick="addtag()">+</div>
                 
             </div>
