@@ -34,66 +34,78 @@
         });
     </script>
     <script type="text/javascript">
-    function strlen(str){
-        var len = 0;
-        for (var i=0; i<str.length; i++) { 
-        var c = str.charCodeAt(i); 
-        //单字节加1 
-        if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) { 
-            len++; 
-        } 
-        else { 
-            len+=2; 
-             } 
-        } 
-    return len;
-    }
-        $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8080/api/sortarticle",
-            dataType: "text",
-            success: function (data1) {
-                
-                var data=JSON.parse(data1)
 
-                const dlength=data.length;
-                if (data.length <= 10) {
-                    console.log('size<9 act')
-                    
-                    for (var i = 0; i < dlength; i++) {
-                        console.log('size<9 loop act')
-                        let cache=data.shift()
-                        let originnumber=strlen(cache.content);
-                        let number= (originnumber/1000).toFixed(2);
-                        let time = (originnumber/1000).toFixed(0);
-                        $("#postarea").append(
-                            `<div class='frame postblock'>
-                                <div class='title'><p>${cache.title}</p></div>
-                                <div class=info>
-                                    <div class='infodiv'><span class='time'>${cache.createdtime}</span>
-                                        <span class='division'>|</span>
-                                        <span class='time'>${cache.updatedtime}</span>
-                                        <span class='division'>|</span>
-                                        <span class='tags'>${cache.hashtags}</span></div>
-                                    <div class='infodiv'><span class='numberofword'>字数：${number}k</span>
-                                        <span class='division'>|</span>
-                                        <span class='timeofread'>阅读时间：${time}分钟</span></div>
-                                </div>
-                                <div class='postarticle'>${cache.content}
-                                </div>
-                                <div class='btn-show-article'>
-                                    阅读全文 》
-                                </div>
-                            </div>`
-                        );
+        function formDate(dateForm) {
+            if (dateForm === "") {  //解决deteForm为空传1970-01-01 00:00:00
+                return "";
+            } else {
+                var dateee = new Date(dateForm).toJSON();
+                var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+                return date;
+            }}
+
+            function strlen(str) {
+                var len = 0;
+                for (var i = 0; i < str.length; i++) {
+                    var c = str.charCodeAt(i);
+                    //单字节加1 
+                    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+                        len++;
+                    }
+                    else {
+                        len += 2;
                     }
                 }
-                else for (var i = 0; i < 9; i++) {
+                return len;
+            }
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8080/api/sortarticle",
+                dataType: "text",
+                success: function (data1) {
+
+                    var data = JSON.parse(data1)
+
+                    const dlength = data.length;
+                    if (data.length <= 10) {
+                        console.log('size<9 act')
+
+                        for (var i = 0; i < dlength; i++) {
+                            console.log('size<9 loop act')
+                            let cache = data.shift()
+                            let originnumber = strlen(cache.content);
+                            let number = (originnumber / 1000).toFixed(2);
+                            let time = (originnumber / 1000).toFixed(0);
+                            let createdtime=formDate(cache.createdtime);
+                            let updatedtime=formDate(cache.updatedtime)
+                            $("#postarea").append(
+                                `<div class='frame postblock'>
+                                <div class='title'><p>${cache.title}</p></div>
+                                <div class=info>
+                                    <div class='infodiv'><span class='time'>${createdtime}</span>
+                                        <span class='division'>|</span>
+                                        <span class='time'>${updatedtime}</span>
+                                        <span class='division'>|</span>
+                                        <span class='tags'>${cache.hashtags}</span></div>
+                                    <div class='infodiv'><span class='numberofword'>字数：${number}k</span>
+                                        <span class='division'>|</span>
+                                        <span class='timeofread'>阅读时间：${time}分钟</span></div>
+                                </div>
+                                <div class='postarticle'>${cache.content}
+                                </div>
+                                <div class='btn-show-article'>
+                                    阅读全文 》
+                                </div>
+                            </div>`
+                            );
+                        }
+                    }
+                    else for (var i = 0; i < 9; i++) {
                         console.log('size>9 loop act')
-                        let cache=data.shift()
-                        let originnumber=strlen(cache.content);
-                        let number= (originnumber/1000).toFixed(2);
-                        let time = (originnumber/1000).toFixed(0);
+                        let cache = data.shift()
+                        let originnumber = strlen(cache.content);
+                        let number = (originnumber / 1000).toFixed(2);
+                        let time = (originnumber / 1000).toFixed(0);
                         $("#postarea").append(
                             `<div class='frame postblock'>
                                 <div class='title'><p>${cache.title}</p></div>
@@ -117,8 +129,8 @@
                     }
 
 
-            }
-        });
+                }
+            });
     </script>
 
 

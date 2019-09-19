@@ -11,6 +11,7 @@ var indexhandler = function(req,res,next){
 }
 var uploader = function(req,res,next){
     database.writearticle(req.params)
+    // console.log(req.params)
     res.send(200,"created");
     res.end();
     next();
@@ -45,7 +46,21 @@ var sortarticle = function(req,res,next){
  
     database.sortarticle((err,articles)=>{
         if (err){res.send(406,err);return res.end();}
-        else {res.send(200,articles);res.end();}
+        else {
+            var cachearray=new Array;
+            
+            for (var i = -1 ; i<= articles.length;i++){
+                var cache =articles.shift();
+                cache.content=cache.content.replace(/<[^>]*>/g,"")
+                cache.content=cache.content.substring(0,400)
+                cachearray.push(cache)
+                
+            }
+           
+
+            
+            res.send(200,cachearray);
+            res.end();}
     });
     
 

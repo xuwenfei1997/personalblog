@@ -29,52 +29,98 @@
     </script>
     <script type="text/javascript">
 
-    var i=0;
-    var tagcache=new Array;
-    function addtag(){
-    
-    if (i<6){
-        i=i+1;
-    newtag[i]=`        
-    <div id='addtags${i}' class='plustag'>
-        <input id='tags-input${i}'  placeholder="标签">
-        <div id='addtagbtn' onclick="addtag()">+</div>
-        <div id='deletebtn' onclick="removetag(this.parentNode.id)">-</div>
 
-    </div>`
+        var i = 0;
+        var tagcache = new Array;
+        function addtag() {
 
-    
-    
-    $('#addtags').append(newtag[i])
-      
-    }
-    else alert("标签数量过多");
-    }
-    var newtag=new Array;
+            if (i < 6) {
+                if ($('#tags-input' + i).val() !== "") {
+                    
+                    var cache = i
+                    i = i + 1;
+                    newtag[i] = `        
+            <div id='addtags${i}' class='plustag'>
+                <input id='tags-input${i}'  placeholder="标签">
+                <div id='addtagbtn' onclick="addtag()">+</div>
+                <div id='deletebtn' onclick="removetag(this.parentNode.id,${i})">-</div>
+                
+            </div>
+            
+            `
 
-    function removetag(id){
-        
-        $('#'+id).remove();
-        i=i-1;
-    }
-    var newArticle
-    function save(){
-        var title= $("#title-input").val()
-        var content=editor.txt.html();
-        for(var p=0;p<=i;p++){
-        newtag[p]=$("#tags-input"+p).val()
 
+            
+                    $('#addtags0').append(newtag[i])
+                  
+                    
+
+                }
+                else {
+
+                    
+                    alert("TAG不能为空")
+                }
+
+
+            }
+            else { alert("标签数量过多"); }
         }
-        newArticle={
-            title:title,
-            content:content,
-            hashtags:newtag
-        }
-        console.log(newArticle)
-        
-    }
 
-    
+        
+
+        function removetag(id) {
+            
+            $('#' + id).remove();
+
+           
+            
+        }
+        var newArticle
+        var newtag = new Array;
+        var cachearray=new Array;
+        function save() {
+            function checkarray(value){
+                if (value !== "")
+                {return value!==undefined}
+                else alert("TAG不能为空")
+            }
+            
+            var title = $("#title-input").val()
+            var content = editor.txt.html();
+            for (var p = 0; p <= i; p++) {
+                cachearray[p] = $("#tags-input" + p).val()
+                cachearray=cachearray.filter(checkarray);
+            }
+
+            if (title =="" || content ==""){
+                alert("标题/内容不能为空")
+            }
+            else
+            {newArticle = {
+                "title": title,
+                "content": content,
+                "hashtags": cachearray
+            }
+            console.log(newArticle)
+            $.ajax({
+            type: "POST",
+            async:false,
+            data:newArticle,
+            url: "http://127.0.0.1:8080/api/upload",
+            dataType: "text",
+            success: function (data) {
+                alert("发送成功");
+            },
+            error:function(err){
+                alert(err)
+            }
+
+        });
+
+        }}
+
+
 
 
     </script>
@@ -129,31 +175,31 @@
 
         <div id='postarea'>
             <div id='writearea'>
-            <div><input id='title-input' placeholder="标题"></div>
-            <div id='addtags'>
-                <input id='tags-input0'  placeholder="标签">
-                <div id='addtagbtn' onclick="addtag()">+</div>
-                
+                <div><input id='title-input' placeholder="标题"></div>
+                <div id='addtags0'>
+                    <input id='tags-input0' placeholder="标签">
+                    <div id='addtagbtn' onclick="addtag()">+</div>
+
+                </div>
+                <div id="editor">
+                    <p>在这里输入正文</p>
+                </div>
+
+                <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+                <script type="text/javascript" src="node_modules/wangeditor/release/wangEditor.min.js"></script>
+                <script type="text/javascript">
+                    var E = window.wangEditor
+                    var editor = new E('#editor')
+                    // editor.txt.html('<p>在这里输入正文</p>')
+                    editor.customConfig.showLinkImg = false
+                    editor.customConfig.uploadImgServer = '/api/uploadimg'
+                    editor.create()
+
+                </script>
+
             </div>
-            <div id="editor">
-                <p>在这里输入正文</p>
+            <div class='btn-show-article' id='btn-save-article' onclick='save()'>
+                发送 》
             </div>
-
-    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
-    <script type="text/javascript" src="node_modules/wangeditor/release/wangEditor.min.js"></script>
-    <script type="text/javascript">
-        var E = window.wangEditor
-        var editor = new E('#editor')
-        // editor.txt.html('<p>在这里输入正文</p>')
-        editor.customConfig.showLinkImg = false
-        editor.customConfig.uploadImgServer = '/api/uploadimg'
-        editor.create()
-
-    </script>
-
         </div>
-        <div class='btn-show-article' id='btn-save-article' onclick='save()'>
-            发送 》
-        </div>
-    </div>
 </body>
