@@ -230,3 +230,20 @@ body{
       display:inline-block;
       margin:0 300px 0 300px;
   }
+  #tagdiv{
+    padding:0 10px 0 10px;
+    cursor: pointer;
+    color: gray;
+    text-decoration: underline;
+    font-style:italic
+  }
+  #back-to-top {
+    width:240px;
+    color: #000;
+    background: rgb(77, 74, 74);
+    font-size: 12px;
+    opacity: 0.6;
+    cursor: pointer;
+    text-align: center;
+    margin: 106px 0 0 0;
+  }

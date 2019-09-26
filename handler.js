@@ -42,15 +42,17 @@ var tagsinit = function(req,res,next){
 
 var sortarticle = function(req,res,next){
 
-
- 
+    
+    var skip = 10*(req.params.page-1)
     database.sortarticle((err,articles)=>{
         if (err){res.send(406,err);return res.end();}
         else {
-            var cachearray=new Array;
             
-            for (var i = -1 ; i<= articles.length;i++){
-                var cache =articles.shift();
+            var cachearray=new Array;
+            var alength=articles.length
+            for (var i = 0 ; i< alength;i++){
+                var cache =articles[i];
+                // console.log(cache)
                 cache.content=cache.content.replace(/<[^>]*>/g,"")
                 cache.content=cache.content.substring(0,400)
                 cachearray.push(cache)
@@ -61,7 +63,7 @@ var sortarticle = function(req,res,next){
             
             res.send(200,cachearray);
             res.end();}
-    });
+    },skip);
     
 
 }
@@ -95,7 +97,11 @@ var uploadimg=function(req,res,next){
     res.end();
 }
 
-
+var findtag = function(req,res,next){
+    database.findtag(req.params,(err,docs)=>{
+        if (err){res.send(406,err);return res.end();}
+        else {res.send(200,docs);res.end();}})
+}
 
 
 
@@ -107,5 +113,6 @@ module.exports={
     tagsinit:tagsinit,
     sortarticle:sortarticle,
     testhandler:testhandler,
-    uploadimg:uploadimg
+    uploadimg:uploadimg,
+    findtag:findtag
 }

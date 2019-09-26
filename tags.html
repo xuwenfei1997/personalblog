@@ -9,11 +9,19 @@
             type: "GET",
             url: "http://127.0.0.1:8080/api/tagsinit",
             success: function (data) {
-            $("#postarea").append(
-                `<div class='frame postblock'>    
-                <a href='www.baidu.com'>${data.join("、")}</a>
-                </div>`
-            )}});
+            var length=data.length
+
+            for (var i = 0; i < length; i++) {
+                var cache = data.shift();
+                $("#tagblock").append(
+                `
+                <a id='tagdiv' href="/tagindex?PAGE=${cache}")>${cache}</a>
+
+                `
+            )
+
+            }
+        }});
     </script>
     <script type="text/javascript">
         $.ajax({
@@ -56,10 +64,10 @@
                 <div id="indexdiv">
                     <ul style="list-style:none">
                         <li>
-                            首页
+                            <a href="/")>首页</a>
                         </li>
                         <li>
-                            标签
+                            <a href="/tags.html")>标签</a>
                         </li>
                         <li>
                             归档
@@ -86,8 +94,8 @@
         </aside>
 
         <div id='postarea'>
-
-
+            <div class='frame postblock' id='tagblock'>    
+            </div>
 
         </div>
     </div>

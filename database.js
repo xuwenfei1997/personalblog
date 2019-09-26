@@ -9,7 +9,7 @@ var schema = new mongoose.Schema({
     content: 'string' ,
     hashtags:Array,
 
-    },{timestamps: {createdAt: 'createdtime', updatedAt: 'updatedtime'}}, {versionKey: false,useNewUrlParser: true });
+    },{timestamps: {createdAt: 'createdtime', updatedAt: 'updatedtime'},versionKey: false,useNewUrlParser: true });
 
 
 var Article = mongoose.model('Article', schema);
@@ -51,14 +51,20 @@ var countarticle = function(handleError){
 }
 
 
-var sortarticle = function(func){
+var sortarticle = function(func,skip){
     
-    Article.find({}).sort('-createdtime').exec(function(err, docs) {
+    Article.find({}, {}, { skip: skip ,  limit: 10 }).sort('-createdtime').exec(function(err, docs) {
         func(err,docs)
     });
 }
 
+var findtag = function(tag,func){
+    Article.find({}).sort('-createdtime').exec(function(err, docs) {
+        
+        func(err,docs)
+    });
 
+}
 
 
 
@@ -67,5 +73,6 @@ module.exports={
     writearticle:writearticle,
     countarticle:countarticle,
     sortarticle:sortarticle,
-    setA:setA
+    setA:setA,
+    findtag:findtag
 }

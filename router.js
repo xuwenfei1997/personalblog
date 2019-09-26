@@ -8,10 +8,10 @@ var router = function(server){
     server.get('/api/countarticle',handler.countarticle)
     server.get('/api/counttags',handler.counttags)
     server.get('/api/tagsinit',handler.tagsinit)
-    server.get('/api/sortarticle',handler.sortarticle)
+    server.post('/api/sortarticle',handler.sortarticle)
     server.get('/api/test',handler.testhandler)
     server.post('/api/uploadimg',handler.uploadimg)
-
+    server.post('/api/findtag',handler.findtag)
 }
 
 module.exports={
