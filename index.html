@@ -100,7 +100,7 @@
             var data = JSON.parse(data1)
 
             const dlength = data.length;
-            console.log(data)
+            
             if (data.length < 10) {
 
 
@@ -126,7 +126,7 @@
             </div>
             <div class='postarticle'>${cache.content}
             </div>
-            <div class='btn-show-article'>
+            <div class='btn-show-article' href="/articleindex.html?PAGE=${cache._id}" onclick="location='/articleindex.html?PAGE=${cache._id}'">
                 阅读全文 》
             </div>
             </div>`
@@ -140,6 +140,7 @@
             else {for (var i = 0; i < 10; i++) {
 
                 let cache = data.shift()
+                
                 let originnumber = strlen(cache.content);
                 let number = (originnumber / 1000).toFixed(2);
                 let time = (originnumber / 1000).toFixed(0);
@@ -160,7 +161,7 @@
             </div>
             <div class='postarticle'>${cache.content}
             </div>
-            <div class='btn-show-article'>
+            <div class='btn-show-article' href="/articleindex.html?PAGE=${cache._id}" onclick="location='/articleindex.html?PAGE=${cache._id}'">
                 阅读全文 》
             </div>
         </div>`
@@ -172,9 +173,7 @@
         
         $(window).scroll(function () {
             var a = $('#postarea')[0].lastChild.offsetTop;
-            // console.log(a)
-            // console.log($(window).scrollTop())
-            // // console.log($(window).height())
+           
             if (a - $(window).scrollTop()<500){
             
                

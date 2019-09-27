@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript">
+            function backToTop() {
+            window.scrollTo(0, 0)
+        }
+
         $.ajax({
             type: "GET",
             url: "http://127.0.0.1:8080/api/tagsinit",
@@ -15,7 +19,7 @@
                 var cache = data.shift();
                 $("#tagblock").append(
                 `
-                <a id='tagdiv' href="/tagindex?PAGE=${cache}")>${cache}</a>
+                <a id='tagdiv' href="/tagindex.html?PAGE=${cache}")>${cache}</a>
 
                 `
             )
@@ -89,7 +93,12 @@
                 <a href="www.baidu.com">
                     百度
                 </a>
+                <div id="back-to-top" onclick="backToTop()">
 
+
+                    <span>回到顶上</span>
+
+                </div>
             </div>
         </aside>
 

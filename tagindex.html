@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="main.css">
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript">
+
+        var url =window.location.search;
+        url= url.split('=')
+        
+        function backToTop() {
+            window.scrollTo(0, 0)
+        }
+
+
+        function formDate(dateForm) {
+            if (dateForm === "") {  //解决deteForm为空传1970-01-01 00:00:00
+                return "";
+            } else {
+                var dateee = new Date(dateForm).toJSON();
+                var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+                return date;
+            }}
+
+        function strlen(str) {
+                var len = 0;
+                for (var i = 0; i < str.length; i++) {
+                    var c = str.charCodeAt(i);
+                    //单字节加1 
+                    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+                        len++;
+                    }
+                    else {
+                        len += 2;
+                    }
+                }
+                return len;
+            }
+            
+            var result = new Array
+
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8080/api/findtag",
+                dataType: "text",
+                data:{key:url[1]},
+                success: function (data1) {
+                    addblock(data1)
+
+                }
+            })
+
+            function addblock(data1) {
+            var data = JSON.parse(data1)
+
+            const dlength = data.length;
+            
+            if (data.length < 10) {
+
+
+                for (var i = 0; i < dlength; i++) {
+                    let cache = data.shift()
+                    let originnumber = strlen(cache.content);
+                    let number = (originnumber / 1000).toFixed(2);
+                    let time = (originnumber / 1000).toFixed(0);
+                    let createdtime = formDate(cache.createdtime);
+                    let updatedtime = formDate(cache.updatedtime)
+                    $("#postarea").append(
+                        `<div class='frame postblock'>
+            <div class='title'><p>${cache.title}</p></div>
+            <div class=info>
+                <div class='infodiv'><span class='time'>${createdtime}</span>
+                    <span class='division'>|</span>
+                    <span class='time'>${updatedtime}</span>
+                    <span class='division'>|</span>
+                    <span class='tags'>${cache.hashtags}</span></div>
+                <div class='infodiv'><span class='numberofword'>字数：${number}k</span>
+                    <span class='division'>|</span>
+                    <span class='timeofread'>阅读时间：${time}分钟</span></div>
+            </div>
+            <div class='postarticle'>${cache.content}
+            </div>
+            <div class='btn-show-article' href="/articleindex?PAGE=${cache._id}">
+                阅读全文 》
+            </div>
+            </div>`
+                    );
+                    
+                    $(window).scroll(function() {return null})
+                    
+                }
+                $("#postarea").append(`<div><p>拉到底了</p></div>`)
+            }
+            else {for (var i = 0; i < 10; i++) {
+
+                let cache = data.shift()
+                let originnumber = strlen(cache.content);
+                let number = (originnumber / 1000).toFixed(2);
+                let time = (originnumber / 1000).toFixed(0);
+                let createdtime = formDate(cache.createdtime);
+                let updatedtime = formDate(cache.updatedtime)
+                $("#postarea").append(
+                    `<div class='frame postblock'>
+            <div class='title'><p>${cache.title}</p></div>
+            <div class=info>
+                <div class='infodiv'><span class='time'>${createdtime}</span>
+                    <span class='division'>|</span>
+                    <span class='time'>${updatedtime}</span>
+                    <span class='division'>|</span>
+                    <span class='tags'>${cache.hashtags}</span></div>
+                <div class='infodiv'><span class='numberofword'>字数：${number}k</span>
+                    <span class='division'>|</span>
+                    <span class='timeofread'>阅读时间：${time}分钟</span></div>
+            </div>
+            <div class='postarticle'>${cache.content}
+            </div>
+            <div class='btn-show-article' href="/articleindex?PAGE=${cache._id}">
+                阅读全文 》
+            </div>
+        </div>`
+                );
+            }}
+
+        }
+
+
+        </script>
+        <script type="text/javascript">
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8080/api/countarticle",
+                dataType: "text",
+                success: function (data) {
+                    $("#numberofarticles").html(data + '<br />日志');
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8080/api/counttags",
+                dataType: "text",
+                success: function (data) {
+                    $("#indexspe").html(data + '<br />分类');
+                }
+            });
+        </script>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</head>
+<body style="background-color:rgb(175, 170, 170);">
+            <div id='fullbody'>
+                <aside>
+                    <div id="floattitle" class='frame'>
+                        <div id="logindiv">
+                            <div id='loginspan'><span>注册/登录</span></div>
+        
+                        </div>
+                        <div id="indexdiv">
+                            <ul style="list-style:none">
+                                <li>
+                                    <a href="/")>首页</a>
+                                </li>
+                                <li>
+                                    <a href="/tags.html")>标签</a>
+                                </li>
+                                <li>
+                                    归档
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="floatbottom" class='frame'>
+                        <div id='userprofile'>
+                            <span>guitu</span>
+                            <p>用实力让情怀落地</p>
+                        </div>
+                        <div id='indextable'>
+                            <div class='table2' id='numberofarticles'>40<br />日志</div>
+                            <div class='table2' id='indexspe'>40<br />日志</div>
+        
+                        </div>
+                        <p>LINK</p>
+                        <a href="www.baidu.com">
+                            百度
+                        </a>
+                        <div id="back-to-top" onclick="backToTop()">
+
+
+                            <span>回到顶上</span>
+        
+                        </div>
+                    </div>
+                </aside>
+        
+                <div id='postarea'>
+                    <div><p></p></div>
+        
+                </div>
+            </div>
+</body>
+        <script type="text/javascript">
+                    $('#postarea').append(`<div class='frame'><p>标签${url}的搜索结果</p></div>`)
+
+        </script>

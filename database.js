@@ -59,14 +59,27 @@ var sortarticle = function(func,skip){
 }
 
 var findtag = function(tag,func){
-    Article.find({}).sort('-createdtime').exec(function(err, docs) {
-        
+    
+    Article.find({'hashtags':tag}).sort('-createdtime').exec(function(err, docs) {
+        // console.log(docs)
+
+
         func(err,docs)
     });
 
 }
 
 
+var findarticle = function(id,func){
+    
+    Article.find({'_id':id}).sort('-createdtime').exec(function(err, docs) {
+        
+
+
+        func(err,docs)
+    });
+
+}
 
 module.exports={
     tagsinit:tagsinit,
@@ -74,5 +87,6 @@ module.exports={
     countarticle:countarticle,
     sortarticle:sortarticle,
     setA:setA,
-    findtag:findtag
+    findtag:findtag,
+    findarticle:findarticle
 }

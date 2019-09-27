@@ -11,7 +11,7 @@ var indexhandler = function(req,res,next){
 }
 var uploader = function(req,res,next){
     database.writearticle(req.params)
-    // console.log(req.params)
+    
     res.send(200,"created");
     res.end();
     next();
@@ -52,7 +52,7 @@ var sortarticle = function(req,res,next){
             var alength=articles.length
             for (var i = 0 ; i< alength;i++){
                 var cache =articles[i];
-                // console.log(cache)
+                
                 cache.content=cache.content.replace(/<[^>]*>/g,"")
                 cache.content=cache.content.substring(0,400)
                 cachearray.push(cache)
@@ -69,7 +69,7 @@ var sortarticle = function(req,res,next){
 }
 
 var testhandler=function(req,res,next){
-    console.log(req)
+    
     res.send(200)
     res.end()
 }
@@ -81,8 +81,7 @@ var uploadimg=function(req,res,next){
     var timer=moment().format();
     var filename = timer+'.png';
     var cache = req.params[id]
-    // console.log(cache)
-    // console.log(filename)
+    
     fs.writeFile(filename,cache,function (err) {
         if (err)
             console.log(err);
@@ -98,9 +97,58 @@ var uploadimg=function(req,res,next){
 }
 
 var findtag = function(req,res,next){
+    
+    req.params=req.params.key
     database.findtag(req.params,(err,docs)=>{
         if (err){res.send(406,err);return res.end();}
-        else {res.send(200,docs);res.end();}})
+        else {
+            var cachearray=new Array;
+            var alength=docs.length
+            for (var i = 0 ; i< alength;i++){
+                var cache =docs[i];
+                
+                cache.content=cache.content.replace(/<[^>]*>/g,"")
+                cache.content=cache.content.substring(0,400)
+                cachearray.push(cache)
+                
+            }
+           
+            
+            
+            
+            
+            
+            
+            
+            ;res.send(200,cachearray);res.end();}})
+}
+
+
+var findarticle = function(req,res,next){
+    
+    req.params=req.params.key
+    database.findarticle(req.params,(err,docs)=>{
+        if (err){res.send(406,err);return res.end();}
+        else {
+            var cachearray=new Array;
+            var alength=docs.length
+            for (var i = 0 ; i< alength;i++){
+                var cache =docs[i];
+                
+                cache.content=cache.content.replace(/<[^>]*>/g,"")
+                cache.content=cache.content.substring(0,400)
+                cachearray.push(cache)
+                
+            }
+           
+            
+            
+            
+            
+            
+            
+            
+            ;res.send(200,cachearray);res.end();}})
 }
 
 
@@ -114,5 +162,6 @@ module.exports={
     sortarticle:sortarticle,
     testhandler:testhandler,
     uploadimg:uploadimg,
-    findtag:findtag
+    findtag:findtag,
+    findarticle:findarticle
 }

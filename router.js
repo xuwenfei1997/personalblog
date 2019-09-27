@@ -12,6 +12,7 @@ var router = function(server){
     server.get('/api/test',handler.testhandler)
     server.post('/api/uploadimg',handler.uploadimg)
     server.post('/api/findtag',handler.findtag)
+    server.post('/api/findarticle',handler.findarticle)
 }
 
 module.exports={
