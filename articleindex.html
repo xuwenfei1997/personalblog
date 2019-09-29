@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 
 <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="main.css">
-        <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
 
-        var url =window.location.search;
-        url= url.split('=')
-        
+        var url = window.location.search;
+        url = url.split('=')
+
         function backToTop() {
             window.scrollTo(0, 0)
         }
@@ -21,49 +21,54 @@
                 var dateee = new Date(dateForm).toJSON();
                 var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
                 return date;
-            }}
+            }
+        }
 
         function strlen(str) {
-                var len = 0;
-                for (var i = 0; i < str.length; i++) {
-                    var c = str.charCodeAt(i);
-                    //单字节加1 
-                    if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
-                        len++;
-                    }
-                    else {
-                        len += 2;
-                    }
+            var len = 0;
+            for (var i = 0; i < str.length; i++) {
+                var c = str.charCodeAt(i);
+                //单字节加1 
+                if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+                    len++;
                 }
-                return len;
+                else {
+                    len += 2;
+                }
             }
-            
-            var result = new Array
+            return len;
+        }
 
-            $.ajax({
-                type: "POST",
-                url: "http://127.0.0.1:8080/api/findarticle",
-                dataType: "text",
-                data:{key:url[1]},
-                success: function (data1) {
-                    
-                    addblock(data1)
+        var result = new Array
 
-                }
-            })
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:8080/api/findarticle",
+            dataType: "text",
+            data: { key: url[1] },
+            success: function (data1) {
 
-            function addblock(data1) {
-            var data = JSON.parse(data1)
-            console.log(data)
+                data1 = JSON.parse(data1)
 
-                  
-                    let originnumber = strlen(data.content);
-                    let number = (originnumber / 1000).toFixed(2);
-                    let time = (originnumber / 1000).toFixed(0);
-                    let createdtime = formDate(data.createdtime);
-                    let updatedtime = formDate(data.updatedtime)
-                    $("#postarea").append(
-                        `<div class='frame postblock'>
+                data1 = data1.pop()
+                
+                addblock(data1)
+
+            }
+        })
+
+        function addblock(data) {
+
+
+
+
+            let originnumber = strlen(data.content);
+            let number = (originnumber / 1000).toFixed(2);
+            let time = (originnumber / 1000).toFixed(0);
+            let createdtime = formDate(data.createdtime);
+            let updatedtime = formDate(data.updatedtime)
+            $("#node").append(
+            `<div class='frame postblock'>
             <div class='title'><p>${data.title}</p></div>
             <div class=info>
                 <div class='infodiv'><span class='time'>${createdtime}</span>
@@ -81,16 +86,42 @@
                 阅读全文 》
             </div>
             </div>`
-                    );
-                    
-                 
-                    
-                }
+            );
+
+            var comment=new Array;
+            comment=data.comment;
+            const length=comment.length
+            if (comment!==[]){
+                for (var i=0;i<length;i++){
+                    var cache=comment[i]
+                   
+
+            $("#node2").append(`<div id='comment' class='frame'>
+                <div id='commentinfo'><span style="margin:0 300px 0 0">昵称:${cache.id}</span><span style="margin:0 300px 0 0">邮箱:${cache.email}</span><span style="margin:0 300px 0 0">${i+1}楼</span></div>
+                <div><p>${cache.content}</p></div>
+            </div>`)}}
+
+
+    }
+
+        function save(){
             
+            var data={id:url[1].toString(),comment:{id:$('#commentid').val(),email:$('#commentemail').val(),content:editor.txt.html()}}
+           
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8080/api/writecomment",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    
+                    alert('评论成功')
+                }
+            });
+        }
 
-
-        </script>
-        <script type="text/javascript">
+    </script>
+    <script type="text/javascript">
             $.ajax({
                 type: "GET",
                 url: "http://127.0.0.1:8080/api/countarticle",
@@ -99,8 +130,8 @@
                     $("#numberofarticles").html(data + '<br />日志');
                 }
             });
-        </script>
-        <script type="text/javascript">
+    </script>
+    <script type="text/javascript">
             $.ajax({
                 type: "GET",
                 url: "http://127.0.0.1:8080/api/counttags",
@@ -109,69 +140,97 @@
                     $("#indexspe").html(data + '<br />分类');
                 }
             });
-        </script>
+    </script>
 
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
 </head>
+
 <body style="background-color:rgb(175, 170, 170);">
-            <div id='fullbody'>
-                <aside>
-                    <div id="floattitle" class='frame'>
-                        <div id="logindiv">
-                            <div id='loginspan'><span>注册/登录</span></div>
-        
-                        </div>
-                        <div id="indexdiv">
-                            <ul style="list-style:none">
-                                <li>
-                                    <a href="/")>首页</a>
-                                </li>
-                                <li>
-                                    <a href="/tags.html")>标签</a>
-                                </li>
-                                <li>
-                                    归档
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div id="floatbottom" class='frame'>
-                        <div id='userprofile'>
-                            <span>guitu</span>
-                            <p>用实力让情怀落地</p>
-                        </div>
-                        <div id='indextable'>
-                            <div class='table2' id='numberofarticles'>40<br />日志</div>
-                            <div class='table2' id='indexspe'>40<br />日志</div>
-        
-                        </div>
-                        <p>LINK</p>
-                        <a href="www.baidu.com">
-                            百度
-                        </a>
-                        <div id="back-to-top" onclick="backToTop()">
+    <div id='fullbody'>
+        <aside>
+            <div id="floattitle" class='frame'>
+                <div id="logindiv">
+                    <div id='loginspan'><span>注册/登录</span></div>
 
-
-                            <span>回到顶上</span>
-        
-                        </div>
-                    </div>
-                </aside>
-        
-                <div id='postarea'>
-                    <div><p></p></div>
-        
+                </div>
+                <div id="indexdiv">
+                    <ul style="list-style:none">
+                        <li>
+                            <a href="/" )>首页</a>
+                        </li>
+                        <li>
+                            <a href="/tags.html" )>标签</a>
+                        </li>
+                        <li>
+                            归档
+                        </li>
+                    </ul>
                 </div>
             </div>
-</body>
-        <script type="text/javascript">
-                    // $('#postarea').append(`<div class='frame'><p>文章${url}的搜索结果</p></div>`)
+            <div id="floatbottom" class='frame'>
+                <div id='userprofile'>
+                    <span>guitu</span>
+                    <p>用实力让情怀落地</p>
+                </div>
+                <div id='indextable'>
+                    <div class='table2' id='numberofarticles'>40<br />日志</div>
+                    <div class='table2' id='indexspe'>40<br />日志</div>
 
-        </script>
+                </div>
+                <p>LINK</p>
+                <a href="www.baidu.com">
+                    百度
+                </a>
+                <div id="back-to-top" onclick="backToTop()">
+
+
+                    <span>回到顶上</span>
+
+                </div>
+            </div>
+        </aside>
+
+        <div id='postarea'>
+            <div id='node' class='frame'>
+                <p></p>
+            </div>
+            <div id='node2'></div>
+            <div id='commentarea' class='frame'>
+            <div >
+                <span>昵称：</span><input id='commentid' placeholder="在这里输入您的昵称" />
+                <span>邮箱：</span><input id='commentemail' placeholder="在这里输入您的邮箱" />
+            </div>
+            <div id="editor">
+                <p>在这里输入评论</p>
+            </div>
+    
+            <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+            <script type="text/javascript" src="node_modules/wangeditor/release/wangEditor.min.js"></script>
+            <script type="text/javascript">
+                var E = window.wangEditor
+                var editor = new E('#editor')
+                // editor.txt.html('<p>在这里输入评论</p>')
+                editor.customConfig.showLinkImg = false
+                editor.customConfig.uploadImgServer = '/api/uploadimg'
+                editor.create()
+    
+            </script>
+                        <div class='btn-show-article' id='btn-save-article' onclick='save()'>
+                                发送 》
+                            </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript">
+                    // $('#postarea').append(`< div class= 'frame' > <p>文章${url}的搜索结果</p></div >`)
+
+</script>

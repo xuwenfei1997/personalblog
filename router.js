@@ -13,6 +13,7 @@ var router = function(server){
     server.post('/api/uploadimg',handler.uploadimg)
     server.post('/api/findtag',handler.findtag)
     server.post('/api/findarticle',handler.findarticle)
+    server.post('/api/writecomment',handler.writecomment)
 }
 
 module.exports={

@@ -43,7 +43,7 @@ var tagsinit = function(req,res,next){
 var sortarticle = function(req,res,next){
 
     
-    var skip = 10*(req.params.page-1)
+    var skip = 10*(req.params.page)
     database.sortarticle((err,articles)=>{
         if (err){res.send(406,err);return res.end();}
         else {
@@ -151,6 +151,15 @@ var findarticle = function(req,res,next){
             ;res.send(200,cachearray);res.end();}})
 }
 
+var writecomment=function(req,res,next){
+
+
+
+    database.writecomment(req.params)
+    res.send(200)
+    res.end()
+}
+
 
 
 module.exports={
@@ -163,5 +172,6 @@ module.exports={
     testhandler:testhandler,
     uploadimg:uploadimg,
     findtag:findtag,
-    findarticle:findarticle
+    findarticle:findarticle,
+    writecomment:writecomment
 }

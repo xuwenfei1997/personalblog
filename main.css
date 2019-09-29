@@ -247,3 +247,20 @@ body{
     text-align: center;
     margin: 106px 0 0 0;
   }
+#commentarea{
+    background-color: white;
+    margin:5px 0 0 0 ;
+    
+}
+#comment{
+    background-color: white;
+    margin:5px 0 0 0 ; 
+}
+#commentinfo{
+    border-bottom: #999;
+    border-bottom-style: dotted
+}
+#node2{
+    margin:0;
+    padding:0;
+}

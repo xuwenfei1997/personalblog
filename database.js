@@ -8,7 +8,7 @@ var schema = new mongoose.Schema({
     title: 'string',
     content: 'string' ,
     hashtags:Array,
-
+    comment:Array
     },{timestamps: {createdAt: 'createdtime', updatedAt: 'updatedtime'},versionKey: false,useNewUrlParser: true });
 
 
@@ -81,6 +81,20 @@ var findarticle = function(id,func){
 
 }
 
+var writecomment=function(data){
+    var id = data.id
+    var content = {$push: {comment:data.comment}}
+    
+    Article.findOneAndUpdate({_id:id},content, () => {
+
+    })
+
+    }
+
+
+
+
+
 module.exports={
     tagsinit:tagsinit,
     writearticle:writearticle,
@@ -88,5 +102,6 @@ module.exports={
     sortarticle:sortarticle,
     setA:setA,
     findtag:findtag,
-    findarticle:findarticle
+    findarticle:findarticle,
+    writecomment:writecomment
 }
