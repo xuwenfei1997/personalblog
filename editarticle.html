@@ -97,51 +97,64 @@
                    
 
             $("#node2").append(`<div id='comment' class='frame'>
-                <div id='commentinfo'><span style="margin:0 300px 0 0">昵称:${cache.userid}</span><span style="margin:0 300px 0 0">邮箱:${cache.email}</span><span style="margin:0 300px 0 0">${i+1}楼</span></div>
+                <div id='commentinfo'><span style="margin:0 300px 0 0">昵称:${cache.userid}</span><span style="margin:0 300px 0 0">邮箱:${cache.email}</span><span style="margin:0 300px 0 0">${i+1}楼</span><span id='deletebtn1' onclick="deletecomment(${cache._id})">删除该评论</span></div>
                 <div><p>${cache.content}</p></div>
             </div>`)}}
 
 
     }
 
-        function save(){
+    function save(){
             var cache=$("span:last").text();
-            console.log(cache)
             var testdata=cache.substring(1,2)
-            console.log(testdata)
-            // if (testdata=='楼'){
+            if (testdata=='楼'){
             cache=cache.substring(0,1)
-            console.log(cache)
             var data={id:url[1].toString(),comment:{_id:cache,userid:$('#commentid').val(),email:$('#commentemail').val(),content:editor.txt.html()}}
            
-            // $.ajax({
-            //     type: "POST",
-            //     url: "http://127.0.0.1:8080/api/writecomment",
-            //     contentType: "application/json",
-            //     data: JSON.stringify(data),
-            //     success: function (data) {
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8080/api/writecomment",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
                     
-            //         alert('评论成功')
-            //         window.location.reload()
-            //     }
-            // });
-    //     }
-    //         else{
-    //         cache='1';
-    //         var data={id:url[1].toString(),comment:{_id:cache,userid:$('#commentid').val(),email:$('#commentemail').val(),content:editor.txt.html()}}
+                    alert('评论成功')
+                    window.location.reload()
+                }
+            });
+        }
+            else{
+            cache='1';
+            var data={id:url[1].toString(),comment:{_id:cache,userid:$('#commentid').val(),email:$('#commentemail').val(),content:editor.txt.html()}}
            
-    //        $.ajax({
-    //            type: "POST",
-    //            url: "http://127.0.0.1:8080/api/writecomment",
-    //            contentType: "application/json",
-    //            data: JSON.stringify(data),
-    //            success: function (data) {
+           $.ajax({
+               type: "POST",
+               url: "http://127.0.0.1:8080/api/writecomment",
+               contentType: "application/json",
+               data: JSON.stringify(data),
+               success: function (data) {
                    
-    //                alert('评论成功')
-    //                window.location.reload()
-    //            }
-    //        });
-    // }
+                   alert('评论成功')
+                   window.location.reload()
+               }
+           });
+    }
+
+        }
+
+        function deletecomment(_id){
+
+
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8080/api/deletecomment",
+                dataType: "text",
+                data:{id:url[1].toString(),_id:_id},
+                success: function (data) {
+                    alert('评论已删除')
+                    window.location.reload()
+                }
+            });
 
         }
 
@@ -229,8 +242,8 @@
             <div id='node2'></div>
             <div id='commentarea' class='frame'>
             <div >
-                <label>昵称：</label><input id='commentid' placeholder="在这里输入您的昵称" />
-                <label>邮箱：</label><input id='commentemail' placeholder="在这里输入您的邮箱" />
+                <span>昵称：</span><input id='commentid' placeholder="在这里输入您的昵称" />
+                <span>邮箱：</span><input id='commentemail' placeholder="在这里输入您的邮箱" />
             </div>
             <div id="editor">
                 <p>在这里输入评论</p>

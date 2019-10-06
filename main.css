@@ -264,3 +264,28 @@ body{
     margin:0;
     padding:0;
 }
+#deletebtn1{
+    width:22px;
+    border: black;
+    border-width: 1px;
+ 
+    margin:0;
+    border-style: solid;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+  }
+
+*{
+    padding: 0px;
+    margin: 0px;
+}
+ol,ul{
+    list-style:none;
+}
+a{
+    text-decoration: none;
+}
+input,label{
+    vertical-align: middle;
+}

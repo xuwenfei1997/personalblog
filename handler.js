@@ -160,6 +160,11 @@ var writecomment=function(req,res,next){
     res.end()
 }
 
+var deletecomment=function(req,res,next){
+    database.deletecomment(req.params)
+    res.send(200)
+    res.end()
+}
 
 
 module.exports={
@@ -173,5 +178,6 @@ module.exports={
     uploadimg:uploadimg,
     findtag:findtag,
     findarticle:findarticle,
-    writecomment:writecomment
+    writecomment:writecomment,
+    deletecomment:deletecomment
 }

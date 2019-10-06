@@ -91,7 +91,16 @@ var writecomment=function(data){
 
     }
 
+var deletecomment=function(data){
+    var _id = data._id;
+    
+    var id = data.id;
+    var content = {$pull: {comment:{"_id" : _id}}}
+    Article.findOneAndUpdate({_id:id},content, () => {
 
+    })
+
+}
 
 
 
@@ -103,5 +112,6 @@ module.exports={
     setA:setA,
     findtag:findtag,
     findarticle:findarticle,
-    writecomment:writecomment
+    writecomment:writecomment,
+    deletecomment:deletecomment
 }

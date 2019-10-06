@@ -43,6 +43,25 @@
         /////////////////////////////////////////////
         /////////////////////////////////////////////
         /////////////////////////////////////////////
+
+
+        function login(){
+
+        }
+
+        $(document).ready(function(){
+            $(".btn_click").click(function(){
+//                alert("hello");
+                $(".box_bg").fadeIn(100);
+                $(".box_lg").slideDown(200);
+            });
+            $(".close").click(function(){
+                $(".box_bg").fadeOut(100);
+                $(".box_lg").hide(100);
+            })})
+
+
+
         function formDate(dateForm) {
             if (dateForm === "") {  //解决deteForm为空传1970-01-01 00:00:00
                 return "";
@@ -199,10 +218,52 @@
 
 <body style="background-color:rgb(175, 170, 170);">
     <div id='fullbody'>
+
+
+            <div id='logininterface'>
+            <div>
+                    <a class="btn btn-primary btn_click">百度登录框</a>
+                </div>*
+                <div class="box_lg">
+                    <div class="box_tit">
+                        <a class="close" href="#">×</a>
+                        <h3>登录账号</h3>
+                    </div>
+             
+                    <div class="box_cont">
+                        <form class="box_frm" action="http://www.baidu.com">
+                            <ol>
+                                <li><input type="text" class="ipt" placeholder="账号"/></li>
+                                <li><input type="text" class="ipt" placeholder="密码"/></li>
+                                <li><input type="submit" value="登录" class="btn btn-primary btn_frm"></li>
+                            </ol>
+                        </form>
+                    </div>
+                    <div class="box_ft">
+                        <input type="checkbox" style="margin-right: 8px"><label>下次自动登录</label>
+                        <a href="#" >立即注册</a>
+                    </div>
+                </div>
+                <div class="box_bg"></div>
+            </div>
+
+
         <aside>
             <div id="floattitle" class='frame'>
                 <div id="logindiv">
-                    <div id='loginspan'><span>注册/登录</span></div>
+                    <div id='loginspan'><span onclick="login()">登录</span></div>
+                    
+
+
+
+
+                    
+
+
+
+
+
+
 
                 </div>
                 <div id="indexdiv">
