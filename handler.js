@@ -1,6 +1,9 @@
 var database = require('./database')
 var fs = require('fs')
 var moment = require('moment');
+var Base64 = require('js-base64').Base64;
+const cookies = require('restify-cookies');
+
 
 moment.locale('zh-cn');
 
@@ -167,6 +170,39 @@ var deletecomment=function(req,res,next){
 }
 
 
+
+var fouroneeight=function(req,res,next){
+    res.send(418);
+    res.end()
+}
+
+var login=function(req,res,next){
+    
+    var correct={account:'xuwenfei1997',password:'xwf19971101'}
+    var key = Base64.encode('xuwenfei1997')+Base64.encode('xwf19971101')
+    if (req.params.account==correct.account && req.params.password==correct.password){
+        
+        res.send(200,key)
+        res.end();
+    }
+    else{
+        res.send(401);
+        res.end();
+    }
+}
+
+
+var cookie=function(req,res,next){
+    if(Base64.decode(req.cookies.login)=='xuwenfei1997xwf19971101'){
+        res.send(200)
+        res.end()
+    }
+    else{
+        res.send(403,'您没有权限')
+        res.end()
+    }
+}
+
 module.exports={
     indexhandler:indexhandler,
     uploader:uploader,
@@ -179,5 +215,8 @@ module.exports={
     findtag:findtag,
     findarticle:findarticle,
     writecomment:writecomment,
-    deletecomment:deletecomment
+    deletecomment:deletecomment,
+    fouroneeight:fouroneeight,
+    login:login,
+    cookie:cookie
 }

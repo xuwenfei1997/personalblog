@@ -3,6 +3,8 @@ var config  = require('./config')
 var router  = require('./router')
 var os      = require('os')
 var handler = require('./handler')
+const cookies = require('restify-cookies');
+
 
 var server = restify.createServer(
     {name:config.name,
@@ -11,9 +13,13 @@ var server = restify.createServer(
     }
 
 );
+
 server.listen(config.port,function(){
     console.log('restify server is listening at '+config.url+':'+config.port)
 })
+server.use(cookies.parse);
+
+
 server.use(restify.plugins.bodyParser({
     maxBodySize: 0,
     mapParams: true,

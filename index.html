@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="jquery.cookie.js"></script>
     <script type="text/javascript">
         $.ajax({
             type: "GET",
@@ -33,6 +34,17 @@
             }
         });
     </script>
+        <script type="text/javascript">
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8080/api/cookie",
+                
+                success: function () {
+                    
+                    $('#loginspan').children().text('欢迎您，阿卡莎')
+                }
+            });
+        </script>
     <script type="text/javascript">
         /////////////////////////////////////////////
         /////////////////////////////////////////////
@@ -45,20 +57,19 @@
         /////////////////////////////////////////////
 
 
-        function login(){
 
-        }
 
-        $(document).ready(function(){
-            $(".btn_click").click(function(){
-//                alert("hello");
+        $(document).ready(function () {
+            $(".btn_click").click(function () {
+                //                alert("hello");
                 $(".box_bg").fadeIn(100);
                 $(".box_lg").slideDown(200);
             });
-            $(".close").click(function(){
+            $(".close").click(function () {
                 $(".box_bg").fadeOut(100);
                 $(".box_lg").hide(100);
-            })})
+            })
+        })
 
 
 
@@ -92,26 +103,27 @@
             dataType: "text",
             data: { "page": page },
             success: function (data1) {
-                
+
                 addblock(data1)
 
             }
         });
-        function getNextPage(){
-            
-        $.ajax({
-            type: "POST",
-            url: "http://127.0.0.1:8080/api/sortarticle",
-            dataType: "text",
-            async:false,
-            data: { "page": page },
-            success: function (data1) {
-                
-                nextPageCache=data1;
-                page=page+1
+        function getNextPage() {
 
-            }
-        });}
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8080/api/sortarticle",
+                dataType: "text",
+                async: false,
+                data: { "page": page },
+                success: function (data1) {
+
+                    nextPageCache = data1;
+                    page = page + 1
+
+                }
+            });
+        }
 
         function backToTop() {
             window.scrollTo(0, 0)
@@ -121,9 +133,9 @@
             var data = JSON.parse(data1)
 
             const dlength = data.length;
-            
+
             if (data.length < 10) {
-               
+
 
                 for (var i = 0; i < dlength; i++) {
                     let cache = data.shift()
@@ -152,23 +164,24 @@
             </div>
             </div>`
                     );
-                    
-                    $(window).scroll(function() {return null})
-                    
+
+                    $(window).scroll(function () { return null })
+
                 }
                 $("#postarea").append(`<div><p>拉到底了</p></div>`)
             }
-            else {for (var i = 0; i < 10; i++) {
-                
-                let cache = data.shift()
-                
-                let originnumber = strlen(cache.content);
-                let number = (originnumber / 1000).toFixed(2);
-                let time = (originnumber / 1000).toFixed(0);
-                let createdtime = formDate(cache.createdtime);
-                let updatedtime = formDate(cache.updatedtime)
-                $("#postarea").append(
-                    `<div class='frame postblock'>
+            else {
+                for (var i = 0; i < 10; i++) {
+
+                    let cache = data.shift()
+
+                    let originnumber = strlen(cache.content);
+                    let number = (originnumber / 1000).toFixed(2);
+                    let time = (originnumber / 1000).toFixed(0);
+                    let createdtime = formDate(cache.createdtime);
+                    let updatedtime = formDate(cache.updatedtime)
+                    $("#postarea").append(
+                        `<div class='frame postblock'>
             <div class='title'><p>${cache.title}</p></div>
             <div class=info>
                 <div class='infodiv'><span class='time'>${createdtime}</span>
@@ -186,26 +199,81 @@
                 阅读全文 》
             </div>
         </div>`
-                );
-            }}
+                    );
+                }
+            }
 
         }
 
-        
+
         $(window).scroll(function () {
             var a = $('#postarea')[0].lastChild.offsetTop;
-           
-            if (a - $(window).scrollTop()<500){
-            
-               
-                
-                    
-                    addblock(nextPageCache)
-                    
-                    getNextPage();
-                }
-                 
+
+            if (a - $(window).scrollTop() < 500) {
+
+
+
+
+                addblock(nextPageCache)
+
+                getNextPage();
+            }
+
         })
+
+
+
+
+
+        function addloginbox() {
+
+            $(".shadow").show();
+            $('.addBox').show();
+            $('body').css("overflow", "hidden")
+            return 0;
+        }
+
+
+        function createcookie(key) {
+            console.log(key)
+            $.cookie('login',key, {
+                expires: 7,
+                path: '/',
+                domain: '127.0.0.1',
+                secure: false
+            })
+        }
+        function login(cache){
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8080/api/login",
+                dataType: "text",
+                async: false,
+                data: cache,
+                success: function (data) {
+                    
+                    createcookie(data)
+                    // window.location.reload()
+                },
+                error : function(data){
+                alert('账号密码错误')
+                }
+            });
+        }
+
+
+        function closeloginbox() {
+            $('body').css("overflow", "scroll")
+            $(".shadow").hide();
+            $('.addBox').hide();
+        }
+        function loginboxlogin() {
+            var cache={account:$("#account").val(),password:$("#password").val()}
+            
+            login(cache)
+
+            closeloginbox();
+        }
     </script>
 
 
@@ -217,47 +285,32 @@
 </head>
 
 <body style="background-color:rgb(175, 170, 170);">
+
+    <div class="shadow">
+        <!--遮罩层-->
+    </div>
+    <div id="addBox" class="addBox">
+        <header id='closebtn'><span class="btn" onclick="closeloginbox()">X</span></header>
+        <div><span>管理员账号：</span><input  id="account" /></div>
+        <div><span>密码：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><input id="password" /></div>
+        <footer id='loginbtn'><span class="btn" onclick="loginboxlogin()">登录</span></footer>
+    </div>
     <div id='fullbody'>
 
 
-            <div id='logininterface'>
-            <div>
-                    <a class="btn btn-primary btn_click">百度登录框</a>
-                </div>*
-                <div class="box_lg">
-                    <div class="box_tit">
-                        <a class="close" href="#">×</a>
-                        <h3>登录账号</h3>
-                    </div>
-             
-                    <div class="box_cont">
-                        <form class="box_frm" action="http://www.baidu.com">
-                            <ol>
-                                <li><input type="text" class="ipt" placeholder="账号"/></li>
-                                <li><input type="text" class="ipt" placeholder="密码"/></li>
-                                <li><input type="submit" value="登录" class="btn btn-primary btn_frm"></li>
-                            </ol>
-                        </form>
-                    </div>
-                    <div class="box_ft">
-                        <input type="checkbox" style="margin-right: 8px"><label>下次自动登录</label>
-                        <a href="#" >立即注册</a>
-                    </div>
-                </div>
-                <div class="box_bg"></div>
-            </div>
+
 
 
         <aside>
             <div id="floattitle" class='frame'>
                 <div id="logindiv">
-                    <div id='loginspan'><span onclick="login()">登录</span></div>
-                    
+                    <div id='loginspan'><span onclick="addloginbox()">登录</span></div>
 
 
 
 
-                    
+
+
 
 
 

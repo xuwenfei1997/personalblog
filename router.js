@@ -3,7 +3,7 @@ var handler = require('./handler')
 
 
 var router = function(server){
-    // server.get('/', handler.indexhandler);
+    server.get('/api/cookie',handler.cookie);
     server.post('/api/upload', handler.uploader);
     server.get('/api/countarticle',handler.countarticle)
     server.get('/api/counttags',handler.counttags)
@@ -15,6 +15,8 @@ var router = function(server){
     server.post('/api/findarticle',handler.findarticle)
     server.post('/api/writecomment',handler.writecomment)
     server.post('/api/deletecomment',handler.deletecomment)
+    server.get('/418', handler.fouroneeight)
+    server.post('/api/login',handler.login)
 }
 
 module.exports={
