@@ -15,6 +15,8 @@ var router = function(server){
     server.post('/api/findarticle',handler.findarticle)
     server.post('/api/writecomment',handler.writecomment)
     server.post('/api/deletecomment',handler.deletecomment)
+    server.get('/418', handler.fouroneeight)
+    server.post('/api/login',handler.login)
 }
 
 module.exports={
