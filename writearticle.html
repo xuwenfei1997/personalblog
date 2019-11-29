@@ -2,140 +2,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript" src="jquery.js"></script>
-
-
-    </script>
-    <script type="text/javascript">
-        $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8080/api/countarticle",
-            dataType: "text",
-            success: function (data) {
-                $("#numberofarticles").html(data + '<br />日志');
-            }
-        });
-    </script>
-    <script type="text/javascript">
-        $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8080/api/counttags",
-            dataType: "text",
-            success: function (data) {
-                $("#indexspe").html(data + '<br />分类');
-            }
-        });
-    </script>
-    <script type="text/javascript">
-
-
-        var i = 0;
-        var tagcache = new Array;
-        function addtag() {
-
-            if (i < 6) {
-                if ($('#tags-input' + i).val() !== "") {
-                    
-                    var cache = i
-                    i = i + 1;
-                    newtag[i] = `        
-            <div id='addtags${i}' class='plustag'>
-                <input id='tags-input${i}'  placeholder="标签">
-                <div id='addtagbtn' onclick="addtag()">+</div>
-                <div id='deletebtn' onclick="removetag(this.parentNode.id,${i})">-</div>
-                
-            </div>
-            
-            `
-
-
-            
-                    $('#addtags0').append(newtag[i])
-                  
-                    
-
-                }
-                else {
-
-                    
-                    alert("TAG不能为空")
-                }
-
-
-            }
-            else { alert("标签数量过多"); }
-        }
-
-        
-
-        function removetag(id) {
-            
-            $('#' + id).remove();
-
-           
-            
-        }
-        var newArticle
-        var newtag = new Array;
-        var cachearray=new Array;
-
-        
-        function save() {
-            function checkarray(value){
-                if (value !== "")
-                {return value!==undefined}
-                else alert("TAG不能为空")
-            }
-            
-            var title = $("#title-input").val()
-            var content = editor.txt.html();
-            for (var p = 0; p <= i; p++) {
-                cachearray[p] = $("#tags-input" + p).val()
-                cachearray=cachearray.filter(checkarray);
-            }
-
-            if (title =="" || content ==""){
-                alert("标题/内容不能为空")
-            }
-            else
-            {newArticle = {
-                "title": title,
-                "content": content,
-                "hashtags": cachearray
-            }
-            console.log(newArticle)
-            $.ajax({
-            type: "POST",
-            async:false,
-            data:newArticle,
-            url: "http://127.0.0.1:8080/api/upload",
-            dataType: "text",
-            success: function (data) {
-                alert("发送成功");
-            },
-            error:function(err){
-                alert(err)
-            }
-
-        });
-
-        }}
-
-
-
-
-    </script>
-
-
-
-
-
-
 
 </head>
 
 <body style="background-color:rgb(175, 170, 170);">
+    <div class="shadow">
+        <!--遮罩层-->
+    </div>
+    <div id="addBox" class="addBox">
+        <header id='closebtn'><span class="btn" onclick="closeloginbox()">X</span></header>
+        <div><span>管理员账号：</span><input  id="account" /></div>
+        <div><span>密码：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><input id="password" /></div>
+        <footer id='loginbtn'><span class="btn" onclick="loginboxlogin()">登录</span></footer>
+    </div>
     <div id='fullbody'>
         <aside>
             <div id="floattitle" class='frame'>
@@ -146,10 +27,10 @@
                 <div id="indexdiv">
                     <ul style="list-style:none">
                         <li>
-                                <a href="/")>首页</a>
+                            <a href="/" )>首页</a>
                         </li>
                         <li>
-                                <a href="/tags.html")>标签</a>
+                            <a href="/tags.html" )>标签</a>
                         </li>
                         <li>
                             归档
@@ -205,3 +86,7 @@
             </div>
         </div>
 </body>
+
+
+<script type="text/javascript" src="/js/storage.js"></script>
+<script type="text/javascript" src="/js/writearticle.js"></script>

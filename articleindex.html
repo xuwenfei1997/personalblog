@@ -2,170 +2,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript">
-
-        var url = window.location.search;
-        url = url.split('=')
-
-        function backToTop() {
-            window.scrollTo(0, 0)
-        }
 
 
-        function formDate(dateForm) {
-            if (dateForm === "") {  //解决deteForm为空传1970-01-01 00:00:00
-                return "";
-            } else {
-                var dateee = new Date(dateForm).toJSON();
-                var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
-                return date;
-            }
-        }
-
-        function strlen(str) {
-            var len = 0;
-            for (var i = 0; i < str.length; i++) {
-                var c = str.charCodeAt(i);
-                //单字节加1 
-                if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
-                    len++;
-                }
-                else {
-                    len += 2;
-                }
-            }
-            return len;
-        }
-
-        var result = new Array
-
-        $.ajax({
-            type: "POST",
-            url: "http://127.0.0.1:8080/api/findarticle",
-            dataType: "text",
-            data: { key: url[1] },
-            success: function (data1) {
-
-                data1 = JSON.parse(data1)
-
-                data1 = data1.pop()
-                
-                addblock(data1)
-
-            }
-        })
-
-        function addblock(data) {
-
-
-
-
-            let originnumber = strlen(data.content);
-            let number = (originnumber / 1000).toFixed(2);
-            let time = (originnumber / 1000).toFixed(0);
-            let createdtime = formDate(data.createdtime);
-            let updatedtime = formDate(data.updatedtime)
-            $("#node").append(
-            `<div class='frame postblock'>
-            <div class='title'><p>${data.title}</p></div>
-            <div class=info>
-                <div class='infodiv'><span class='time'>${createdtime}</span>
-                    <span class='division'>|</span>
-                    <span class='time'>${updatedtime}</span>
-                    <span class='division'>|</span>
-                    <span class='tags'>${data.hashtags}</span></div>
-                <div class='infodiv'><span class='numberofword'>字数：${number}k</span>
-                    <span class='division'>|</span>
-                    <span class='timeofread'>阅读时间：${time}分钟</span></div>
-            </div>
-            <div class='postarticle'>${data.content}
-            </div>
-            <div class='btn-show-article' href="/articleindex?PAGE=${data._id}">
-                阅读全文 》
-            </div>
-            </div>`
-            );
-
-            var comment=new Array;
-            comment=data.comment;
-            const length=comment.length
-            if (comment!==[]){
-                for (var i=0;i<length;i++){
-                    var cache=comment[i]
-                   
-
-            $("#node2").append(`<div id='comment' class='frame'>
-                <div id='commentinfo'><span style="margin:0 300px 0 0">昵称:${cache.userid}</span><span style="margin:0 300px 0 0">邮箱:${cache.email}</span><span style="margin:0 300px 0 0">${i+1}楼</span></div>
-                <div><p>${cache.content}</p></div>
-            </div>`)}}
-
-
-    }
-
-        function save(){
-            var cache=$("span:last").text();
-            console.log(cache)
-            var testdata=cache.substring(1,2)
-            console.log(testdata)
-            // if (testdata=='楼'){
-            cache=cache.substring(0,1)
-            console.log(cache)
-            var data={id:url[1].toString(),comment:{_id:cache,userid:$('#commentid').val(),email:$('#commentemail').val(),content:editor.txt.html()}}
-           
-            // $.ajax({
-            //     type: "POST",
-            //     url: "http://127.0.0.1:8080/api/writecomment",
-            //     contentType: "application/json",
-            //     data: JSON.stringify(data),
-            //     success: function (data) {
-                    
-            //         alert('评论成功')
-            //         window.location.reload()
-            //     }
-            // });
-    //     }
-    //         else{
-    //         cache='1';
-    //         var data={id:url[1].toString(),comment:{_id:cache,userid:$('#commentid').val(),email:$('#commentemail').val(),content:editor.txt.html()}}
-           
-    //        $.ajax({
-    //            type: "POST",
-    //            url: "http://127.0.0.1:8080/api/writecomment",
-    //            contentType: "application/json",
-    //            data: JSON.stringify(data),
-    //            success: function (data) {
-                   
-    //                alert('评论成功')
-    //                window.location.reload()
-    //            }
-    //        });
-    // }
-
-        }
-
-    </script>
-    <script type="text/javascript">
-            $.ajax({
-                type: "GET",
-                url: "http://127.0.0.1:8080/api/countarticle",
-                dataType: "text",
-                success: function (data) {
-                    $("#numberofarticles").html(data + '<br />日志');
-                }
-            });
-    </script>
-    <script type="text/javascript">
-            $.ajax({
-                type: "GET",
-                url: "http://127.0.0.1:8080/api/counttags",
-                dataType: "text",
-                success: function (data) {
-                    $("#indexspe").html(data + '<br />分类');
-                }
-            });
-    </script>
 
 
 
@@ -178,6 +18,15 @@
 </head>
 
 <body style="background-color:rgb(175, 170, 170);">
+    <div class="shadow">
+        <!--遮罩层-->
+    </div>
+    <div id="addBox" class="addBox">
+        <header id='closebtn'><span class="btn" onclick="closeloginbox()">X</span></header>
+        <div><span>管理员账号：</span><input  id="account" /></div>
+        <div><span>密码：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><input id="password" /></div>
+        <footer id='loginbtn'><span class="btn" onclick="loginboxlogin()">登录</span></footer>
+    </div>
     <div id='fullbody'>
         <aside>
             <div id="floattitle" class='frame'>
@@ -223,39 +72,14 @@
         </aside>
 
         <div id='postarea'>
-            <div id='node' class='frame'>
-                <p></p>
-            </div>
-            <div id='node2'></div>
-            <div id='commentarea' class='frame'>
-            <div >
-                <label>昵称：</label><input id='commentid' placeholder="在这里输入您的昵称" />
-                <label>邮箱：</label><input id='commentemail' placeholder="在这里输入您的邮箱" />
-            </div>
-            <div id="editor">
-                <p>在这里输入评论</p>
-            </div>
-    
-            <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
-            <script type="text/javascript" src="node_modules/wangeditor/release/wangEditor.min.js"></script>
-            <script type="text/javascript">
-                var E = window.wangEditor
-                var editor = new E('#editor')
-                // editor.txt.html('<p>在这里输入评论</p>')
-                editor.customConfig.showLinkImg = false
-                editor.customConfig.uploadImgServer = '/api/uploadimg'
-                editor.create()
-    
-            </script>
-                        <div class='btn-show-article' id='btn-save-article' onclick='save()'>
-                                发送 》
-                            </div>
-            </div>
+
+
+        </div>
+        
         </div>
 
     </div>
 </body>
-<script type="text/javascript">
-                    // $('#postarea').append(`< div class= 'frame' > <p>文章${url}的搜索结果</p></div >`)
 
-</script>
+<script type="text/javascript" src="/js/articleindex.js"></script>
+<script type="text/javascript" src="/js/storage.js"></script>

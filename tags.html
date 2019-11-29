@@ -2,51 +2,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="/css/main.css">
     <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript">
-            function backToTop() {
-            window.scrollTo(0, 0)
-        }
 
-        $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8080/api/tagsinit",
-            success: function (data) {
-            var length=data.length
-
-            for (var i = 0; i < length; i++) {
-                var cache = data.shift();
-                $("#tagblock").append(
-                `
-                <a id='tagdiv' href="/tagindex.html?PAGE=${cache}")>${cache}</a>
-
-                `
-            )
-
-            }
-        }});
-    </script>
-    <script type="text/javascript">
-        $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8080/api/countarticle",
-            dataType: "text",
-            success: function (data) {
-                $("#numberofarticles").html(data + '<br />日志');
-            }
-        });
-    </script>
-    <script type="text/javascript">
-        $.ajax({
-            type: "GET",
-            url: "http://127.0.0.1:8080/api/counttags",
-            dataType: "text",
-            success: function (data) {
-                $("#indexspe").html(data + '<br />分类');
-            }
-        });
-    </script>
 
 
 
@@ -58,6 +16,15 @@
 </head>
 
 <body style="background-color:rgb(175, 170, 170);">
+    <div class="shadow">
+        <!--遮罩层-->
+    </div>
+    <div id="addBox" class="addBox">
+        <header id='closebtn'><span class="btn" onclick="closeloginbox()">X</span></header>
+        <div><span>管理员账号：</span><input  id="account" /></div>
+        <div><span>密码：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span><input id="password" /></div>
+        <footer id='loginbtn'><span class="btn" onclick="loginboxlogin()">登录</span></footer>
+    </div>
     <div id='fullbody'>
         <aside>
             <div id="floattitle" class='frame'>
@@ -109,3 +76,6 @@
         </div>
     </div>
 </body>
+
+<script type="text/javascript" src="/js/storage.js"></script>
+<script type="text/javascript">tags()</script>

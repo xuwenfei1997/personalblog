@@ -2,8 +2,6 @@ var database = require('./database')
 var fs = require('fs')
 var moment = require('moment');
 var Base64 = require('js-base64').Base64;
-const cookies = require('restify-cookies');
-
 
 moment.locale('zh-cn');
 

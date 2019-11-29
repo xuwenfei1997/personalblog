@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/xuwenfei1997/personalblog#readme",
   "dependencies": {
+<<<<<<< HEAD
     "js-base64": "^2.5.1",
+=======
+>>>>>>> 002d74db9bca86507d72aca8c4a14e3612a131f4
     "js-md5": "^0.7.3",
     "moment": "^2.24.0",
     "mongodb": "^3.3.2",
